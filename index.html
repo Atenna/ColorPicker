@@ -124,7 +124,14 @@
 
                 var alphaPicker = document.getElementById("alphaPicker");
                 alphaPicker.style.backgroundImage = "linear-gradient(to right, white, "+rgbColor + ")";
+
+                updateFullColorPicker(rgbColor);
                 return rgbColor;
+            }
+
+            function updateFullColorPicker(currentRgb) {
+                var fullScalePickerColor = document.getElementById("fullScalePickerColor");
+                fullScalePickerColor.style.backgroundImage = "linear-gradient(to right, white, " + currentRgb + ")";
             }
 
             function getAlphaFromSlider() {
@@ -136,8 +143,12 @@
 
                 var outputColor = document.getElementById("outputColor");
                 outputColor.style.backgroundColor = newColor;
+
+                updateFullColorPicker(newColor);
                 return newColor;
             }
+
+            
         </script>
     </head>
     <body>
@@ -182,6 +193,13 @@
             <h3>Previous palettes</h3>
             <div class="container" id="palette">
 
+            </div>
+            <div class="fullScalePickerColor" id="fullScalePickerColor">
+                <div class="fullScalePickerAlphaTop">
+                    <div class="fullScalePickerAlphaRight">
+                    
+                    </div>
+                </div>
             </div>
         </div>
 

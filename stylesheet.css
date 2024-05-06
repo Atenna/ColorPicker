@@ -54,6 +54,25 @@ input[type='range']::-webkit-slider-thumb {
     cursor: ew-resize;
     box-shadow: rgba(0, 0, 0, 0.37) 0px 1px 4px 0px;;
 }
+
+.fullScalePickerAlphaRight {
+    background-image: linear-gradient(to top, black, transparent);
+    height: 200px;
+    width: 200px;
+}
+
+.fullScalePickerAlphaTop {
+    background-image: linear-gradient(to right, white, transparent);
+    height: 200px;
+    width: 200px;
+}
+
+.fullScalePickerColor {
+    background-image: linear-gradient(to right, white, red);
+    height: 200px;
+    width: 200px;
+}
+
 input[type='range']#alphaPicker{
     -webkit-appearance: none;
     width: 100%;
