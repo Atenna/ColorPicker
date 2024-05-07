@@ -119,19 +119,27 @@
                     blue = 255-((colorValue - 88) * (255 / 13));
                 }
                 var outputColor = document.getElementById("outputColor");
+                var outputColor2 = document.getElementById("outputColor2");
                 var rgbColor = "rgb("+red+","+green+","+blue+")"
                 outputColor.style.backgroundColor = rgbColor;
+                outputColor2.style.backgroundColor = rgbColor;
 
                 var alphaPicker = document.getElementById("alphaPicker");
                 alphaPicker.style.backgroundImage = "linear-gradient(to right, white, "+rgbColor + ")";
 
                 updateFullColorPicker(rgbColor);
+                updateBrightnessPicker(rgbColor)
                 return rgbColor;
             }
 
             function updateFullColorPicker(currentRgb) {
                 var fullScalePickerColor = document.getElementById("fullScalePickerColor");
                 fullScalePickerColor.style.backgroundImage = "linear-gradient(to right, white, " + currentRgb + ")";
+            }
+
+            function updateBrightnessPicker(currentRgb) {
+                var fullBrightnessPicker = document.getElementById("brightnessPicker");
+                fullBrightnessPicker.style.backgroundImage = "linear-gradient(to right, black, " + currentRgb + ")";
             }
 
             function getAlphaFromSlider() {
@@ -141,10 +149,37 @@
                 var newColor = rgbColor.replace(')', ','+alphaValue+')');
                 newColor = newColor.replace('rgb', 'rgba');
 
-                var outputColor = document.getElementById("outputColor");
+                var outputColor = document.getElementById("outputColor2");
                 outputColor.style.backgroundColor = newColor;
 
                 updateFullColorPicker(newColor);
+                updateBrightnessPicker(newColor)
+                return newColor;
+            }
+
+            function getBrightnessFromSlider() {
+                var slider = document.getElementById("brightnessPicker");
+                var brightnessValue = slider.value;
+                var rgbColor = getColorFromSlider();
+                
+                let colors = rgbColor.match(/\d+/g);
+                var red = colors[0] - (255 - brightnessValue*2.5);
+                var green = colors[1] - (255 - brightnessValue*2.5);
+                var blue = colors[2] - (255 - brightnessValue*2.5);
+                var alpha = 1;
+                if (colors[3] != '255') {
+                    var alpha = colors[3];
+                }
+
+
+                console.log(colors, red, green, blue, alpha);
+                var newColor = "rgba(" + red + ", " + green + ", " + blue + ", " + alpha + ")";
+
+                var outputColor2 = document.getElementById("outputColor2");
+                outputColor2.style.backgroundColor = newColor;
+
+                //updateFullColorPicker(newColor);
+                //updateBrightnessPicker(newColor)
                 return newColor;
             }
 
@@ -176,6 +211,7 @@
             
             <div class="row pt-2">
                 <div class="col-3">
+                    <h3>Hue</h3>
                     <input class="slider" type="range" id="colorPicker" min="0" max="100" value="50" oninput="getColorFromSlider()"/>
                 </div>
                 <div class="col">
@@ -184,9 +220,18 @@
             </div>
             <div class="row pt-2">
                 <div class="col-3">
-                    <input class="slider" type="range" id="alphaPicker" min="0" max="100" value="50" oninput="getAlphaFromSlider()"/>
+                    <h3>Saturation</h3>
+                    <input class="slider" type="range" id="alphaPicker" min="0" max="100" value="100" oninput="getAlphaFromSlider()"/>
                 </div>
                 <div id="outputColor"></div>
+                
+            </div>
+            <div class="row pt-2">
+                <div class="col-3">
+                    <h3>Brightness</h3>
+                    <input class="slider" type="range" id="brightnessPicker" min="0" max="100" value="100" oninput="getBrightnessFromSlider()"/>
+                </div>
+                <div id="outputColor2"></div>
                 
             </div>
             
