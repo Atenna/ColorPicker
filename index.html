@@ -9,182 +9,7 @@
         <link rel="script" href="../ColorPicker/bootstrap-4.0.0-dist/js/bootstrap.bundle.min.js">
         <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
         <link rel="stylesheet" href="./stylesheet.css">
-        <script>
-            function savePalette() {
-                var element1 = document.getElementById("first");
-                const styles1 = window.getComputedStyle(element1);
-                var color1 = styles1.getPropertyValue("background-color");
-                var element2 = document.getElementById("second");
-                const styles2 = window.getComputedStyle(element2);
-                var color2 = styles2.getPropertyValue("background-color");
-                var element3 = document.getElementById("third");
-                const styles3 = window.getComputedStyle(element3);
-                var color3 = styles3.getPropertyValue("background-color");
-                var element4 = document.getElementById("fourth");
-                const styles4 = window.getComputedStyle(element4);
-                var color4 = styles4.getPropertyValue("background-color");
-                var element5 = document.getElementById("fifth");
-                const styles5 = window.getComputedStyle(element5);
-                var color5 = styles5.getPropertyValue("background-color");
-
-                console.log(color1, color2, color3, color4, color5);
-                colors = [color1, color2, color3, color4, color5];
-                createNewPalette(colors);
-            }
-
-            function createNewPalette(colors) {
-
-                var parent = document.getElementById("palette");
-                const newRow = document.createElement("div");
-                newRow.className = "row pt-2";
-
-                for (var i = 0; i < 5; i++) {
-                    var col = document.createElement("div");
-                    col.className = "col colorBoxSmall";
-                    console.log(colors[i]);
-                    col.style.backgroundColor = colors[i];
-                    newRow.appendChild(col);
-                }
-                
-                
-                //newCol.innerHTML = "<div class='col colorBox' id='first'></div><div class='col colorBox' id='second'></div><div class='col colorBox' id='third'></div><div class='col colorBox' id='fourth'></div><div class='col colorBox' id='fifth'></div>";
-                parent.appendChild(newRow);
-            }
-
-            function changeColor(box) {
-                var element;
-                switch (box) {
-                    case 0:
-                        element = document.getElementById("first");
-                        break;
-                    case 1:
-                        element = document.getElementById("second");
-                        break;
-                    case 2:
-                        element = document.getElementById("third");
-                        break;
-                    case 3:
-                        element = document.getElementById("fourth");
-                        break;
-                    case 4:
-                        element = document.getElementById("fifth");
-                        break;
-                }
-                element.style.backgroundColor = getAlphaFromSlider();
-            }
-
-            function getColorFromSlider() {
-                var slider = document.getElementById("colorPicker");
-                var colorValue = slider.value;
-                // red orange yellow green blue violet red
-                // 1                  50              100
-
-                // (255,0,0) 
-                var red = 255;
-                var blue = 0;
-                var green = 0;
-                
-                // cervena --> zlta (255,0,0) -> (255,255,0)
-                if (colorValue >= 0 & colorValue <= 25) {
-                    green = colorValue * (255 / 25);
-                }
-                // zlta --> zelena (255,255,0) -> (0,255,0)
-                else if (colorValue > 25 & colorValue <= 50) {
-                    red = 255 - ((colorValue - 25) * (255 / 25));
-                    green = 255;
-                    blue = 0;
-                }
-                // zelena --> teal (0,255,0) -> (0,255,255) 
-                else if (colorValue > 50 & colorValue <= 62) {
-                    red = 0;
-                    green = 255;
-                    blue = (colorValue - 50) * (255 / 13);
-                }
-                // teal - modra (0,255,255) -> (0,0,255)
-                else if (colorValue > 62 & colorValue <= 75){
-                    red = 0;
-                    green = 255 - ((colorValue - 63) * (255 / 13));
-                    blue = 255;
-                }
-                // modra - fialova (0,0,255) -> (255,0,255)
-                else if (colorValue > 75 & colorValue <= 88){
-                    red = (colorValue - 75) * (255 / 13);
-                    green = 0;
-                    blue = 255;
-                }
-                // fialova - cervena (255,0,255) -> (255,0,0)
-                else {
-                    red = 255;
-                    green = 0;
-                    blue = 255-((colorValue - 88) * (255 / 13));
-                }
-                var outputColor = document.getElementById("outputColor");
-                var outputColor2 = document.getElementById("outputColor2");
-                var rgbColor = "rgb("+red+","+green+","+blue+")"
-                outputColor.style.backgroundColor = rgbColor;
-                outputColor2.style.backgroundColor = rgbColor;
-
-                var alphaPicker = document.getElementById("alphaPicker");
-                alphaPicker.style.backgroundImage = "linear-gradient(to right, white, "+rgbColor + ")";
-
-                updateFullColorPicker(rgbColor);
-                updateBrightnessPicker(rgbColor)
-                return rgbColor;
-            }
-
-            function updateFullColorPicker(currentRgb) {
-                var fullScalePickerColor = document.getElementById("fullScalePickerColor");
-                fullScalePickerColor.style.backgroundImage = "linear-gradient(to right, white, " + currentRgb + ")";
-            }
-
-            function updateBrightnessPicker(currentRgb) {
-                var fullBrightnessPicker = document.getElementById("brightnessPicker");
-                fullBrightnessPicker.style.backgroundImage = "linear-gradient(to right, black, " + currentRgb + ")";
-            }
-
-            function getAlphaFromSlider() {
-                var slider = document.getElementById("alphaPicker");
-                var alphaValue = slider.value/100;
-                var rgbColor = getColorFromSlider();
-                var newColor = rgbColor.replace(')', ','+alphaValue+')');
-                newColor = newColor.replace('rgb', 'rgba');
-
-                var outputColor = document.getElementById("outputColor2");
-                outputColor.style.backgroundColor = newColor;
-
-                updateFullColorPicker(newColor);
-                updateBrightnessPicker(newColor)
-                return newColor;
-            }
-
-            function getBrightnessFromSlider() {
-                var slider = document.getElementById("brightnessPicker");
-                var brightnessValue = slider.value;
-                var rgbColor = getColorFromSlider();
-                
-                let colors = rgbColor.match(/\d+/g);
-                var red = colors[0] - (255 - brightnessValue*2.5);
-                var green = colors[1] - (255 - brightnessValue*2.5);
-                var blue = colors[2] - (255 - brightnessValue*2.5);
-                var alpha = 1;
-                if (colors[3] != '255') {
-                    var alpha = colors[3];
-                }
-
-
-                console.log(colors, red, green, blue, alpha);
-                var newColor = "rgba(" + red + ", " + green + ", " + blue + ", " + alpha + ")";
-
-                var outputColor2 = document.getElementById("outputColor2");
-                outputColor2.style.backgroundColor = newColor;
-
-                //updateFullColorPicker(newColor);
-                //updateBrightnessPicker(newColor)
-                return newColor;
-            }
-
-            
-        </script>
+        
     </head>
     <body>
         <div class="container pt-5">
@@ -214,26 +39,38 @@
                     <h3>Hue</h3>
                     <input class="slider" type="range" id="colorPicker" min="0" max="100" value="50" oninput="getColorFromSlider()"/>
                 </div>
+                <div id="outputHue"></div>
                 <div class="col">
                     <button type="submit" class="btn btn-primary text-right btn-save-palette" onclick="savePalette()">Save palette</button>
                 </div>
             </div>
+
             <div class="row pt-2">
                 <div class="col-3">
                     <h3>Saturation</h3>
-                    <input class="slider" type="range" id="alphaPicker" min="0" max="100" value="100" oninput="getAlphaFromSlider()"/>
+                    <input class="slider" type="range" id="saturationPicker" min="0" max="100" value="100" oninput="getSaturationFromSlider()"/>
                 </div>
-                <div id="outputColor"></div>
+                <div id="outputSaturation"></div>
                 
             </div>
+
             <div class="row pt-2">
                 <div class="col-3">
                     <h3>Brightness</h3>
                     <input class="slider" type="range" id="brightnessPicker" min="0" max="100" value="100" oninput="getBrightnessFromSlider()"/>
                 </div>
-                <div id="outputColor2"></div>
+                <div id="outputBrightness"></div>
                 
             </div>
+            <div class="row pt-2">
+                <div class="col-3">
+                    <h3>Alpha</h3>
+                    <input class="slider" type="range" id="alphaPicker" min="0" max="100" value="100" oninput="getAlphaFromSlider()"/>
+                </div>
+                <div id="outputAlpha"></div>
+                
+            </div>
+            
             
             <h3>Previous palettes</h3>
             <div class="container" id="palette">
@@ -247,7 +84,7 @@
                 </div>
             </div>
         </div>
-
+        <script src="./script.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
