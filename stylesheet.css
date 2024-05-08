@@ -108,3 +108,6 @@ input[type='range']#saturationPicker{
     float: right;
 }
 
+.hidden {
+    visibility:collapse;
+}

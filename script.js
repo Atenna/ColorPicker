@@ -115,6 +115,7 @@ function getColorFromSlider() {
     currentColor = rgbColor;
     updateHue(rgbColor);
     updateColor(rgbColor);
+    updateAplha(rgbColor);
     return rgbColor;
 }
 
