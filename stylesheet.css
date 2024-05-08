@@ -57,20 +57,20 @@ input[type='range']::-webkit-slider-thumb {
 
 .fullScalePickerAlphaRight {
     background-image: linear-gradient(to top, black, transparent);
-    height: 200px;
-    width: 200px;
+    height: 100px;
+    width: 100px;
 }
 
 .fullScalePickerAlphaTop {
     background-image: linear-gradient(to right, white, transparent);
-    height: 200px;
-    width: 200px;
+    height: 100px;
+    width: 100px;
 }
 
 .fullScalePickerColor {
     background-image: linear-gradient(to right, white, red);
-    height: 200px;
-    width: 200px;
+    height: 100px;
+    width: 100px;
 }
 
 input[type='range']#brightnessPicker {

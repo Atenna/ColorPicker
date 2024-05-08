@@ -1,4 +1,5 @@
-var currentColor = 'rgba(255, 0, 0, 1)'; // Default color
+var currentColor = "rgb(255,0,0)";
+let paletteCounter = 0;
 
 function savePalette() {
     var element1 = document.getElementById("first");
@@ -27,6 +28,17 @@ function createNewPalette(colors) {
     var parent = document.getElementById("palette");
     const newRow = document.createElement("div");
     newRow.className = "row pt-2";
+    newRow.id = "palette-"+ paletteCounter;
+    const button = document.createElement("button");
+    button.className = "btn btn-light";
+
+    button.textContent = "Remove"; // Set button text
+    button.onclick = function() {
+        deletePalette(newRow.id);
+    };
+
+    // Append the button to the newRow element
+    
 
     for (var i = 0; i < 5; i++) {
         var col = document.createElement("div");
@@ -35,10 +47,19 @@ function createNewPalette(colors) {
         col.style.backgroundColor = colors[i];
         newRow.appendChild(col);
     }
-    
+    newRow.appendChild(button);
     
     //newCol.innerHTML = "<div class='col colorBox' id='first'></div><div class='col colorBox' id='second'></div><div class='col colorBox' id='third'></div><div class='col colorBox' id='fourth'></div><div class='col colorBox' id='fifth'></div>";
     parent.appendChild(newRow);
+
+    paletteCounter++;
+}
+
+function deletePalette(idPalette) {
+    console.log(idPalette);
+    const elementToDelete = document.getElementById(idPalette);
+    const parentNode = document.getElementById("palette");
+    parentNode.removeChild(elementToDelete);
 }
 
 function changeColor(box) {
@@ -185,9 +206,9 @@ function getSaturationFromSlider() {
     //var rgbColor = getColorFromSlider();
     var rgbColor = currentColor;
     
+    var objColor = parseColor(rgbColor);
+
     let colors = rgbColor.match(/\d+/g);
-    
-    
     var red = colors[0];
     var green = colors[1];
     var blue = colors[2];
@@ -196,8 +217,14 @@ function getSaturationFromSlider() {
     red = (red+1)*((100-saturationValue)*2.55);
     green = (green+1)*((100-saturationValue)*2.55);
     blue = (blue+1)*((100-saturationValue)*(2.55));
+
+    objColor.setRed(red);
+    objColor.setGreen(green);
+    objColor.setBlue(blue);
+
+    var newColor = objColor.getColorString();
     
-    var newColor = "rgb(" + red + ", " + green + ", " + blue + ")";
+    //var newColor = "rgb(" + red + ", " + green + ", " + blue + ")";
 
     updateSaturation(newColor);
     return newColor;
